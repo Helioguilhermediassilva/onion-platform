@@ -168,7 +168,7 @@ Este projeto foi desenvolvido por **Hélio Guilherme Dias Silva** como uma solu�
 
 ## 📄 Licença
 
-Este projeto é propriedade de Hélio Guilherme Dias Silva. Todos os direitos reservados.
+Este projeto é propriedade de Onion. Todos os direitos reservados.
 
 ## 🚀 Roadmap
 
