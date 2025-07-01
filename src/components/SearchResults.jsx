@@ -1,23 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
   const [selectedProperty, setSelectedProperty] = useState(null)
-  const [selectedPhoto, setSelectedPhoto] = useState(null)
-  
-  // Debug: Adicionar indicador visual quando foto está selecionada
-  useEffect(() => {
-    if (selectedPhoto) {
-      console.log('🔍 ESTADO SELECTEDPHOTO ATIVO:', selectedPhoto)
-      document.body.style.overflow = 'hidden' // Prevenir scroll
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-    
-    // Cleanup
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [selectedPhoto])
 
   console.log('SearchResults rendered with:', { results, loading, searchParams })
 
@@ -287,42 +271,24 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                     <h4 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4">
                       📸 Galeria de Fotos ({selectedProperty.fotos.length} foto{selectedProperty.fotos.length > 1 ? 's' : ''})
                     </h4>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {selectedProperty.fotos.map((foto, index) => (
-                        <div key={index} className="relative group cursor-pointer overflow-hidden rounded-lg shadow-md">
+                        <div key={index} className="relative overflow-hidden rounded-lg shadow-lg border border-gray-200">
                           <img
                             src={foto.url || foto}
                             alt={`Foto ${index + 1} do imóvel`}
-                            className="w-full h-40 object-cover border border-gray-200 hover:border-purple-400 transition-all duration-200 group-hover:scale-105"
-                            onClick={() => {
-                              console.log('=== DEBUG CLIQUE NA FOTO ===')
-                              console.log('Foto clicada:', foto.url || foto)
-                              console.log('Index:', index)
-                              console.log('Total de fotos:', selectedProperty.fotos.length)
-                              
-                              const photoData = {
-                                url: foto.url || foto,
-                                alt: `Foto ${index + 1} do imóvel`,
-                                index: index + 1,
-                                total: selectedProperty.fotos.length
-                              }
-                              
-                              console.log('Dados da foto para modal:', photoData)
-                              setSelectedPhoto(photoData)
-                              console.log('Estado selectedPhoto setado!')
-                              console.log('=== FIM DEBUG ===')
-                            }}
+                            className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-center pb-2">
-                            <span className="text-white text-xs font-medium bg-black/30 px-2 py-1 rounded">
-                              🔍 Ampliar
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
+                            <span className="text-white text-sm font-medium">
+                              Foto {index + 1} de {selectedProperty.fotos.length}
                             </span>
                           </div>
                         </div>
                       ))}
                     </div>
-                    <p className="text-xs text-gray-500 mt-2">
-                      💡 Clique nas fotos para visualizar em tamanho maior
+                    <p className="text-sm text-gray-600 mt-4 text-center">
+                      📷 Fotos em alta resolução do imóvel
                     </p>
                   </div>
                 )}
@@ -437,84 +403,6 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
         </div>
       </div>
 
-      {/* Modal de Foto ULTRA-SIMPLES - Versão que FUNCIONA */}
-      {selectedPhoto && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-            zIndex: 999999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '20px'
-          }}
-          onClick={() => {
-            console.log('🚀 FECHANDO MODAL DE FOTO')
-            setSelectedPhoto(null)
-          }}
-        >
-          <div style={{ position: 'relative', maxWidth: '90vw', maxHeight: '90vh' }}>
-            {/* Botão Fechar */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                console.log('🚀 FECHANDO VIA BOTÃO X')
-                setSelectedPhoto(null)
-              }}
-              style={{
-                position: 'absolute',
-                top: '-10px',
-                right: '-10px',
-                backgroundColor: 'white',
-                border: 'none',
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                fontSize: '24px',
-                cursor: 'pointer',
-                zIndex: 1000000,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.3)'
-              }}
-            >
-              ×
-            </button>
-            
-            {/* Imagem */}
-            <img
-              src={selectedPhoto.url}
-              alt={selectedPhoto.alt}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '90vh',
-                objectFit: 'contain',
-                borderRadius: '8px'
-              }}
-              onClick={(e) => e.stopPropagation()}
-            />
-            
-            {/* Info da Foto */}
-            <div style={{
-              position: 'absolute',
-              bottom: '-40px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              color: 'white',
-              textAlign: 'center',
-              fontSize: '14px'
-            }}>
-              {selectedPhoto.alt} - {selectedPhoto.index} de {selectedPhoto.total}
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   )
 }
