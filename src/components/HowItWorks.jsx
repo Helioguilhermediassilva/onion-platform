@@ -1,7 +1,17 @@
 import React from 'react'
 import { ArrowRight, CheckCircle, Users, Settings, FileCheck, Shield, Megaphone } from 'lucide-react'
 
-const HowItWorks = () => {
+const HowItWorks = ({ onOpenPropertyRegistration }) => {
+  // Função para scroll suave para a seção de busca
+  const scrollToSearch = () => {
+    const searchSection = document.querySelector('#hero') || document.querySelector('input[placeholder*="Localização"]')?.closest('section')
+    if (searchSection) {
+      searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      // Fallback: scroll para o topo da página onde está a busca
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
   const steps = [
     {
       number: "01",
@@ -142,10 +152,16 @@ const HowItWorks = () => {
               Junte-se a centenas de empresas que já encontraram seu espaço ideal através da ONION
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-medium transition-colors">
+              <button 
+                onClick={scrollToSearch}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-medium transition-colors"
+              >
                 Buscar Imóveis
               </button>
-              <button className="border border-border hover:bg-secondary/50 text-foreground px-8 py-3 rounded-lg font-medium transition-colors">
+              <button 
+                onClick={onOpenPropertyRegistration}
+                className="border border-border hover:bg-secondary/50 text-foreground px-8 py-3 rounded-lg font-medium transition-colors"
+              >
                 Anunciar Imóvel
               </button>
             </div>

@@ -152,8 +152,8 @@ function App() {
         {!searchData && (
           <>
             <About />
-            <HowItWorks />
-            <Plans />
+            <HowItWorks onOpenPropertyRegistration={openPropertyRegistration} />
+            <Plans onOpenPropertyRegistration={openPropertyRegistration} />
           </>
         )}
         

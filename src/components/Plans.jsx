@@ -1,7 +1,25 @@
 import React from 'react'
 import { Check, Star, Zap, Building, Megaphone } from 'lucide-react'
 
-const Plans = () => {
+const Plans = ({ onOpenPropertyRegistration }) => {
+  // Função para scroll suave para a seção de busca (começar gratuitamente)
+  const scrollToSearch = () => {
+    const searchSection = document.querySelector('#hero') || document.querySelector('input[placeholder*="Localização"]')?.closest('section')
+    if (searchSection) {
+      searchSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  // Função para contato com consultor
+  const contactConsultant = () => {
+    // Pode ser um mailto ou scroll para footer/contato
+    const email = 'contato@onion.com.br'
+    const subject = 'Interesse em consultoria ONION'
+    const body = 'Olá! Tenho interesse em conversar com um consultor sobre os planos da ONION.'
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
   const plans = [
     {
       icon: Building,
@@ -187,10 +205,16 @@ const Plans = () => {
             Escolha o plano ideal para seu negócio e comece a aproveitar todos os benefícios da ONION hoje mesmo
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-medium transition-colors">
+            <button 
+              onClick={scrollToSearch}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-medium transition-colors"
+            >
               Começar Gratuitamente
             </button>
-            <button className="border border-border hover:bg-secondary/50 text-foreground px-8 py-3 rounded-lg font-medium transition-colors">
+            <button 
+              onClick={contactConsultant}
+              className="border border-border hover:bg-secondary/50 text-foreground px-8 py-3 rounded-lg font-medium transition-colors"
+            >
               Falar com Consultor
             </button>
           </div>
