@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
   const [selectedProperty, setSelectedProperty] = useState(null)
+  const [selectedPhoto, setSelectedPhoto] = useState(null)
 
   console.log('SearchResults rendered with:', { results, loading, searchParams })
 
@@ -279,7 +280,12 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                             alt={`Foto ${index + 1} do imóvel`}
                             className="w-full h-24 object-cover border border-gray-200 hover:border-purple-400 transition-all duration-200 group-hover:scale-105"
                             onClick={() => {
-                              window.open(foto.url || foto, '_blank')
+                              setSelectedPhoto({
+                                url: foto.url || foto,
+                                alt: `Foto ${index + 1} do imóvel`,
+                                index: index + 1,
+                                total: selectedProperty.fotos.length
+                              })
                             }}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-center pb-2">
@@ -405,6 +411,60 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
           </div>
         </div>
       </div>
+
+      {/* Modal de Visualização de Foto Ampliada */}
+      {selectedPhoto && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
+          <div className="relative max-w-4xl max-h-full">
+            {/* Header do Modal de Foto */}
+            <div className="absolute top-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 z-10">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-medium">{selectedPhoto.alt}</h3>
+                  <p className="text-sm text-gray-300">
+                    Foto {selectedPhoto.index} de {selectedPhoto.total}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setSelectedPhoto(null)}
+                  className="text-white hover:text-gray-300 text-2xl font-light bg-black bg-opacity-30 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-50 transition-all"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            {/* Imagem Ampliada */}
+            <img
+              src={selectedPhoto.url}
+              alt={selectedPhoto.alt}
+              className="max-w-full max-h-[90vh] object-contain rounded-lg"
+              onClick={() => setSelectedPhoto(null)}
+            />
+
+            {/* Footer do Modal de Foto */}
+            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
+              <div className="text-center">
+                <p className="text-sm text-gray-300 mb-2">
+                  💡 Clique na imagem ou no X para fechar
+                </p>
+                <button
+                  onClick={() => setSelectedPhoto(null)}
+                  className="px-4 py-2 bg-white bg-opacity-20 text-white rounded-lg hover:bg-opacity-30 transition-all"
+                >
+                  Fechar Visualização
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Overlay para fechar clicando fora */}
+          <div 
+            className="absolute inset-0 -z-10"
+            onClick={() => setSelectedPhoto(null)}
+          ></div>
+        </div>
+      )}
     </section>
   )
 }
