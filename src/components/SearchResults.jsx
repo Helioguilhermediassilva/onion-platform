@@ -152,8 +152,8 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
 
         {/* Modal de Detalhes Melhorado */}
         {selectedProperty && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-            <div className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-gray-200">
+          <div className="fixed inset-0 bg-gradient-to-br from-purple-600/20 via-purple-500/15 to-purple-700/20 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+            <div className="bg-white rounded-xl max-w-4xl w-full max-h-[95vh] overflow-hidden shadow-2xl border border-gray-200">
               {/* Header do Modal */}
               <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-6">
                 <div className="flex justify-between items-start">
@@ -178,7 +178,7 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
               </div>
 
               {/* Conteúdo do Modal */}
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+              <div className="p-6 overflow-y-auto" style={{maxHeight: 'calc(95vh - 200px)'}}>
                 {/* Preço em Destaque */}
                 <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg p-6 mb-6 border border-purple-200">
                   <div className="text-center">
