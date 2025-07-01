@@ -34,38 +34,6 @@ const Plans = () => {
       ],
       highlight: true,
       cta: "Destacar Imóvel"
-    },
-    {
-      icon: Zap,
-      title: "Participação em Vendas",
-      subtitle: "Cesta de produtos",
-      description: "Comissão sobre produtos agregados vendidos através da plataforma",
-      features: [
-        "Renda adicional passiva",
-        "Produtos pré-qualificados",
-        "Comissões competitivas",
-        "Relatórios de vendas",
-        "Suporte comercial",
-        "Treinamento incluído"
-      ],
-      highlight: false,
-      cta: "Saiba Mais"
-    },
-    {
-      icon: Megaphone,
-      title: "Espaço Personalizado",
-      subtitle: "White label",
-      description: "Solução personalizada para imobiliárias com marca própria",
-      features: [
-        "Plataforma com sua marca",
-        "Domínio personalizado",
-        "Design customizado",
-        "Funcionalidades exclusivas",
-        "Suporte dedicado",
-        "Integração completa"
-      ],
-      highlight: false,
-      cta: "Solicitar Demo"
     }
   ]
 
@@ -83,7 +51,7 @@ const Plans = () => {
         </div>
 
         {/* Grid de Planos */}
-        <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-8 mb-16">
+        <div className="grid lg:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
           {plans.map((plan, index) => {
             const IconComponent = plan.icon
             return (

@@ -10,19 +10,13 @@ const HowItWorks = () => {
       icon: CheckCircle
     },
     {
-      number: "02", 
-      title: "Conecte-se Diretamente",
-      description: "Entre em contato direto com o proprietário através da nossa plataforma segura.",
-      icon: Users
-    },
-    {
-      number: "03",
+      number: "02",
       title: "Gerencie Tudo Online",
       description: "Utilize nossa plataforma de gestão para acompanhar contratos, pagamentos e documentação.",
       icon: Settings
     },
     {
-      number: "04",
+      number: "03",
       title: "Finalize com Segurança",
       description: "Complete o processo com nossa simplificação jurídica e garantia de segurança nas transações.",
       icon: FileCheck
@@ -72,7 +66,7 @@ const HowItWorks = () => {
 
         {/* Processo em Etapas */}
         <div className="mb-20">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {steps.map((step, index) => {
               const IconComponent = step.icon
               return (
