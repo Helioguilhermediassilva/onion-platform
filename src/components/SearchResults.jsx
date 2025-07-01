@@ -1,8 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
   const [selectedProperty, setSelectedProperty] = useState(null)
   const [selectedPhoto, setSelectedPhoto] = useState(null)
+  
+  // Debug: Adicionar indicador visual quando foto está selecionada
+  useEffect(() => {
+    if (selectedPhoto) {
+      console.log('🔍 ESTADO SELECTEDPHOTO ATIVO:', selectedPhoto)
+      document.body.style.overflow = 'hidden' // Prevenir scroll
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    
+    // Cleanup
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedPhoto])
 
   console.log('SearchResults rendered with:', { results, loading, searchParams })
 
@@ -422,70 +437,80 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
         </div>
       </div>
 
-      {/* Modal de Visualização de Foto Ampliada */}
+      {/* Modal de Foto ULTRA-SIMPLES - Versão que FUNCIONA */}
       {selectedPhoto && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4"
-          style={{ zIndex: 99999 }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              console.log('Clicou no overlay principal para fechar')
-              setSelectedPhoto(null)
-            }
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            zIndex: 999999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px'
+          }}
+          onClick={() => {
+            console.log('🚀 FECHANDO MODAL DE FOTO')
+            setSelectedPhoto(null)
           }}
         >
-          <div className="relative max-w-4xl max-h-full">
-            {/* Header do Modal de Foto */}
-            <div className="absolute top-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 z-10 rounded-t-lg">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h3 className="text-lg font-medium">{selectedPhoto.alt}</h3>
-                  <p className="text-sm text-gray-300">
-                    Foto {selectedPhoto.index} de {selectedPhoto.total}
-                  </p>
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    console.log('Fechando modal de foto via botão X')
-                    setSelectedPhoto(null)
-                  }}
-                  className="text-white hover:text-gray-300 text-2xl font-light bg-black bg-opacity-30 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-50 transition-all"
-                >
-                  ×
-                </button>
-              </div>
-            </div>
-
-            {/* Imagem Ampliada */}
+          <div style={{ position: 'relative', maxWidth: '90vw', maxHeight: '90vh' }}>
+            {/* Botão Fechar */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                console.log('🚀 FECHANDO VIA BOTÃO X')
+                setSelectedPhoto(null)
+              }}
+              style={{
+                position: 'absolute',
+                top: '-10px',
+                right: '-10px',
+                backgroundColor: 'white',
+                border: 'none',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                fontSize: '24px',
+                cursor: 'pointer',
+                zIndex: 1000000,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.3)'
+              }}
+            >
+              ×
+            </button>
+            
+            {/* Imagem */}
             <img
               src={selectedPhoto.url}
               alt={selectedPhoto.alt}
-              className="max-w-full max-h-[90vh] object-contain rounded-lg cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation()
-                console.log('Clicou na imagem ampliada para fechar')
-                setSelectedPhoto(null)
+              style={{
+                maxWidth: '100%',
+                maxHeight: '90vh',
+                objectFit: 'contain',
+                borderRadius: '8px'
               }}
+              onClick={(e) => e.stopPropagation()}
             />
-
-            {/* Footer do Modal de Foto */}
-            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
-              <div className="text-center">
-                <p className="text-sm text-gray-300 mb-2">
-                  💡 Clique na imagem ou no X para fechar
-                </p>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    console.log('Clicou no botão fechar visualização')
-                    setSelectedPhoto(null)
-                  }}
-                  className="px-4 py-2 bg-white bg-opacity-20 text-white rounded-lg hover:bg-opacity-30 transition-all"
-                >
-                  Fechar Visualização
-                </button>
-              </div>
+            
+            {/* Info da Foto */}
+            <div style={{
+              position: 'absolute',
+              bottom: '-40px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              color: 'white',
+              textAlign: 'center',
+              fontSize: '14px'
+            }}>
+              {selectedPhoto.alt} - {selectedPhoto.index} de {selectedPhoto.total}
             </div>
           </div>
         </div>
