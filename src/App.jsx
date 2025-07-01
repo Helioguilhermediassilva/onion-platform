@@ -7,17 +7,28 @@ import HowItWorks from './components/HowItWorks'
 import Plans from './components/Plans'
 import Footer from './components/Footer'
 import SearchResults from './components/SearchResults'
+import PropertyRegistration from './components/PropertyRegistration'
 
 function App() {
   const [searchData, setSearchData] = useState(null)
   const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState(null)
+  const [showPropertyRegistration, setShowPropertyRegistration] = useState(false)
+  const [customProperties, setCustomProperties] = useState([])
 
   const handleSearchResults = (data) => {
     try {
       console.log('Search results received:', data)
       setError(null)
-      setSearchData(data)
+      
+      // Combinar resultados da API com imóveis cadastrados pelo usuário
+      const combinedResults = {
+        ...data,
+        results: [...(data.results || []), ...customProperties],
+        total: (data.total || 0) + customProperties.length
+      }
+      
+      setSearchData(combinedResults)
       setIsSearching(false)
       
       // Scroll para os resultados
@@ -43,6 +54,42 @@ function App() {
     } catch (err) {
       console.error('Error clearing search:', err)
     }
+  }
+
+  const handlePropertyAdded = async (propertyData) => {
+    try {
+      // Enviar para API de cadastro
+      const response = await fetch('/api/imoveis/cadastrar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(propertyData)
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        
+        // Adicionar à lista local de imóveis cadastrados
+        setCustomProperties(prev => [...prev, result.data])
+        
+        console.log('Imóvel cadastrado com sucesso:', result.data)
+      } else {
+        throw new Error('Erro ao cadastrar imóvel')
+      }
+    } catch (error) {
+      console.error('Erro ao cadastrar imóvel:', error)
+      // Mesmo com erro na API, adicionar localmente para demonstração
+      setCustomProperties(prev => [...prev, propertyData])
+    }
+  }
+
+  const openPropertyRegistration = () => {
+    setShowPropertyRegistration(true)
+  }
+
+  const closePropertyRegistration = () => {
+    setShowPropertyRegistration(false)
   }
 
   const clearSearchAndNavigate = (sectionId) => {
@@ -72,7 +119,7 @@ function App() {
   try {
     return (
       <div className="min-h-screen bg-background text-foreground">
-        <Header onNavigate={clearSearchAndNavigate} />
+        <Header onNavigate={clearSearchAndNavigate} onOpenPropertyRegistration={openPropertyRegistration} />
         
         <Hero onSearchResults={handleSearchResults} />
         
@@ -111,6 +158,14 @@ function App() {
         )}
         
         <Footer />
+        
+        {/* Modal de Cadastro de Imóvel */}
+        {showPropertyRegistration && (
+          <PropertyRegistration
+            onClose={closePropertyRegistration}
+            onPropertyAdded={handlePropertyAdded}
+          />
+        )}
       </div>
     )
   } catch (err) {

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Menu, X } from 'lucide-react'
 
-const Header = ({ onNavigate }) => {
+const Header = ({ onNavigate, onOpenPropertyRegistration }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -64,6 +64,13 @@ const Header = ({ onNavigate }) => {
               Planos
             </button>
             <Button 
+              onClick={onOpenPropertyRegistration}
+              variant="outline"
+              className="border-primary text-primary hover:bg-primary hover:text-white"
+            >
+              Anunciar Imóvel
+            </Button>
+            <Button 
               onClick={() => handleNavigation('inicio')}
               className="bg-primary hover:bg-primary/90"
             >
@@ -114,6 +121,13 @@ const Header = ({ onNavigate }) => {
               >
                 Planos
               </button>
+              <Button 
+                onClick={onOpenPropertyRegistration}
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary hover:text-white w-fit"
+              >
+                Anunciar Imóvel
+              </Button>
               <Button 
                 onClick={() => handleNavigation('inicio')}
                 className="bg-primary hover:bg-primary/90 w-fit"
