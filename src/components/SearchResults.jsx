@@ -232,6 +232,129 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                   </p>
                 </div>
 
+                {/* Detalhes e Características */}
+                {selectedProperty.detalhes && selectedProperty.detalhes.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4">
+                      ⭐ Características e Diferenciais
+                    </h4>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {selectedProperty.detalhes.map((detalhe, index) => {
+                        const detalhesLabels = {
+                          'garagem': '🚗 Garagem',
+                          'seguranca_24h': '🛡️ Segurança 24h',
+                          'cameras_seguranca': '📹 Câmeras de segurança',
+                          'elevador': '🛗 Elevador',
+                          'portaria': '🏢 Portaria',
+                          'acesso_deficientes': '♿ Acesso para deficientes',
+                          'ar_condicionado': '❄️ Ar condicionado',
+                          'internet': '🌐 Internet',
+                          'estacionamento_visitantes': '🅿️ Estacionamento visitantes'
+                        }
+                        
+                        return (
+                          <div key={index} className="flex items-center space-x-2 bg-purple-50 rounded-lg p-3 border border-purple-200">
+                            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                            <span className="text-sm font-medium text-purple-800">
+                              {detalhesLabels[detalhe] || detalhe}
+                            </span>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Galeria de Fotos */}
+                {selectedProperty.fotos && selectedProperty.fotos.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4">
+                      📸 Galeria de Fotos ({selectedProperty.fotos.length} foto{selectedProperty.fotos.length > 1 ? 's' : ''})
+                    </h4>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                      {selectedProperty.fotos.map((foto, index) => (
+                        <div key={index} className="relative group cursor-pointer">
+                          <img
+                            src={foto.url || foto}
+                            alt={`Foto ${index + 1} do imóvel`}
+                            className="w-full h-24 object-cover rounded-lg border border-gray-200 hover:border-purple-400 transition-colors"
+                            onClick={() => {
+                              // Abrir foto em tamanho maior (implementação futura)
+                              window.open(foto.url || foto, '_blank')
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all duration-200 flex items-center justify-center">
+                            <span className="text-white opacity-0 group-hover:opacity-100 text-sm font-medium">
+                              🔍 Ver maior
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">
+                      💡 Clique nas fotos para visualizar em tamanho maior
+                    </p>
+                  </div>
+                )}
+
+                {/* Informações Adicionais */}
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4">
+                    📊 Informações Adicionais
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {selectedProperty.vagas_garagem && (
+                      <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-blue-600 text-lg">🚗</span>
+                          <div>
+                            <p className="font-medium text-blue-800">Vagas de Garagem</p>
+                            <p className="text-blue-700">{selectedProperty.vagas_garagem}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {selectedProperty.condominio && selectedProperty.condominio !== '0' && (
+                      <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-orange-600 text-lg">🏢</span>
+                          <div>
+                            <p className="font-medium text-orange-800">Condomínio</p>
+                            <p className="text-orange-700">R$ {selectedProperty.condominio}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {selectedProperty.iptu && selectedProperty.iptu !== '0' && (
+                      <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-green-600 text-lg">🏛️</span>
+                          <div>
+                            <p className="font-medium text-green-800">IPTU</p>
+                            <p className="text-green-700">R$ {selectedProperty.iptu}</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {selectedProperty.data_cadastro && (
+                      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-gray-600 text-lg">📅</span>
+                          <div>
+                            <p className="font-medium text-gray-800">Data do Cadastro</p>
+                            <p className="text-gray-700">
+                              {new Date(selectedProperty.data_cadastro).toLocaleDateString('pt-BR')}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* Informações de Contato */}
                 {selectedProperty.contato && (
                   <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
