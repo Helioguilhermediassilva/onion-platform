@@ -273,19 +273,18 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                     </h4>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                       {selectedProperty.fotos.map((foto, index) => (
-                        <div key={index} className="relative group cursor-pointer">
+                        <div key={index} className="relative group cursor-pointer overflow-hidden rounded-lg">
                           <img
                             src={foto.url || foto}
                             alt={`Foto ${index + 1} do imóvel`}
-                            className="w-full h-24 object-cover rounded-lg border border-gray-200 hover:border-purple-400 transition-colors"
+                            className="w-full h-24 object-cover border border-gray-200 hover:border-purple-400 transition-all duration-200 group-hover:scale-105"
                             onClick={() => {
-                              // Abrir foto em tamanho maior (implementação futura)
                               window.open(foto.url || foto, '_blank')
                             }}
                           />
-                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all duration-200 flex items-center justify-center">
-                            <span className="text-white opacity-0 group-hover:opacity-100 text-sm font-medium">
-                              🔍 Ver maior
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-center pb-2">
+                            <span className="text-white text-xs font-medium bg-black/30 px-2 py-1 rounded">
+                              🔍 Ampliar
                             </span>
                           </div>
                         </div>
@@ -355,45 +354,30 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                   </div>
                 </div>
 
-                {/* Informações de Contato */}
-                {selectedProperty.contato && (
-                  <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
-                    <h4 className="text-lg font-semibold text-green-800 mb-4 flex items-center">
-                      📞 Informações de Contato
-                    </h4>
-                    <div className="grid md:grid-cols-3 gap-4">
-                      <div className="text-center">
-                        <div className="text-2xl mb-2">👤</div>
-                        <p className="font-medium text-green-800">Nome</p>
-                        <p className="text-green-700">{selectedProperty.contato.nome}</p>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl mb-2">📱</div>
-                        <p className="font-medium text-green-800">Telefone</p>
-                        <p className="text-green-700">{selectedProperty.contato.telefone}</p>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl mb-2">✉️</div>
-                        <p className="font-medium text-green-800">Email</p>
-                        <p className="text-green-700 text-sm">{selectedProperty.contato.email}</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Footer do Modal */}
-              <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
-                <div className="flex justify-between items-center">
-                  <p className="text-sm text-gray-600">
-                    💡 Entre em contato para mais informações ou agendamento de visita
-                  </p>
-                  <button 
-                    onClick={() => setSelectedProperty(null)}
-                    className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 font-medium"
-                  >
-                    Fechar
-                  </button>
+              <div className="bg-gradient-to-r from-purple-50 to-purple-100 px-6 py-4 border-t border-purple-200">
+                <div className="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
+                  <div className="text-center md:text-left">
+                    <p className="text-sm font-medium text-purple-800">
+                      🏢 Interessado neste imóvel?
+                    </p>
+                    <p className="text-xs text-purple-600">
+                      Entre em contato com a ONION para mais informações e agendamento de visita
+                    </p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 font-medium text-sm">
+                      💬 Falar com ONION
+                    </button>
+                    <button 
+                      onClick={() => setSelectedProperty(null)}
+                      className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200 font-medium text-sm"
+                    >
+                      Fechar
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
