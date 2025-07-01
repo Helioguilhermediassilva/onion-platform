@@ -549,7 +549,7 @@ const PropertyRegistration = ({ onClose, onPropertyAdded }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-gradient-to-br from-purple-600/20 via-purple-500/15 to-purple-700/20 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
       <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-6">

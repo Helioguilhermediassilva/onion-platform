@@ -280,13 +280,22 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                             alt={`Foto ${index + 1} do imóvel`}
                             className="w-full h-40 object-cover border border-gray-200 hover:border-purple-400 transition-all duration-200 group-hover:scale-105"
                             onClick={() => {
-                              console.log('Clicou na foto:', foto.url || foto)
-                              setSelectedPhoto({
+                              console.log('=== DEBUG CLIQUE NA FOTO ===')
+                              console.log('Foto clicada:', foto.url || foto)
+                              console.log('Index:', index)
+                              console.log('Total de fotos:', selectedProperty.fotos.length)
+                              
+                              const photoData = {
                                 url: foto.url || foto,
                                 alt: `Foto ${index + 1} do imóvel`,
                                 index: index + 1,
                                 total: selectedProperty.fotos.length
-                              })
+                              }
+                              
+                              console.log('Dados da foto para modal:', photoData)
+                              setSelectedPhoto(photoData)
+                              console.log('Estado selectedPhoto setado!')
+                              console.log('=== FIM DEBUG ===')
                             }}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-center pb-2">
@@ -415,7 +424,16 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
 
       {/* Modal de Visualização de Foto Ampliada */}
       {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999] p-4">
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4"
+          style={{ zIndex: 99999 }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              console.log('Clicou no overlay principal para fechar')
+              setSelectedPhoto(null)
+            }
+          }}
+        >
           <div className="relative max-w-4xl max-h-full">
             {/* Header do Modal de Foto */}
             <div className="absolute top-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 z-10 rounded-t-lg">
@@ -427,8 +445,9 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                   </p>
                 </div>
                 <button
-                  onClick={() => {
-                    console.log('Fechando modal de foto')
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    console.log('Fechando modal de foto via botão X')
                     setSelectedPhoto(null)
                   }}
                   className="text-white hover:text-gray-300 text-2xl font-light bg-black bg-opacity-30 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-50 transition-all"
@@ -442,8 +461,9 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
             <img
               src={selectedPhoto.url}
               alt={selectedPhoto.alt}
-              className="max-w-full max-h-[90vh] object-contain rounded-lg"
-              onClick={() => {
+              className="max-w-full max-h-[90vh] object-contain rounded-lg cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation()
                 console.log('Clicou na imagem ampliada para fechar')
                 setSelectedPhoto(null)
               }}
@@ -456,8 +476,9 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                   💡 Clique na imagem ou no X para fechar
                 </p>
                 <button
-                  onClick={() => {
-                    console.log('Clicou no botão fechar')
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    console.log('Clicou no botão fechar visualização')
                     setSelectedPhoto(null)
                   }}
                   className="px-4 py-2 bg-white bg-opacity-20 text-white rounded-lg hover:bg-opacity-30 transition-all"
@@ -467,15 +488,6 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
               </div>
             </div>
           </div>
-
-          {/* Overlay para fechar clicando fora */}
-          <div 
-            className="absolute inset-0 -z-10"
-            onClick={() => {
-              console.log('Clicou no overlay para fechar')
-              setSelectedPhoto(null)
-            }}
-          ></div>
         </div>
       )}
     </section>
