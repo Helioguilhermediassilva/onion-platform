@@ -272,14 +272,15 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                     <h4 className="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2 mb-4">
                       📸 Galeria de Fotos ({selectedProperty.fotos.length} foto{selectedProperty.fotos.length > 1 ? 's' : ''})
                     </h4>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                       {selectedProperty.fotos.map((foto, index) => (
-                        <div key={index} className="relative group cursor-pointer overflow-hidden rounded-lg">
+                        <div key={index} className="relative group cursor-pointer overflow-hidden rounded-lg shadow-md">
                           <img
                             src={foto.url || foto}
                             alt={`Foto ${index + 1} do imóvel`}
-                            className="w-full h-24 object-cover border border-gray-200 hover:border-purple-400 transition-all duration-200 group-hover:scale-105"
+                            className="w-full h-40 object-cover border border-gray-200 hover:border-purple-400 transition-all duration-200 group-hover:scale-105"
                             onClick={() => {
+                              console.log('Clicou na foto:', foto.url || foto)
                               setSelectedPhoto({
                                 url: foto.url || foto,
                                 alt: `Foto ${index + 1} do imóvel`,
@@ -414,10 +415,10 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
 
       {/* Modal de Visualização de Foto Ampliada */}
       {selectedPhoto && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999] p-4">
           <div className="relative max-w-4xl max-h-full">
             {/* Header do Modal de Foto */}
-            <div className="absolute top-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 z-10">
+            <div className="absolute top-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 z-10 rounded-t-lg">
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-lg font-medium">{selectedPhoto.alt}</h3>
@@ -426,7 +427,10 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
                   </p>
                 </div>
                 <button
-                  onClick={() => setSelectedPhoto(null)}
+                  onClick={() => {
+                    console.log('Fechando modal de foto')
+                    setSelectedPhoto(null)
+                  }}
                   className="text-white hover:text-gray-300 text-2xl font-light bg-black bg-opacity-30 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-50 transition-all"
                 >
                   ×
@@ -439,17 +443,23 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
               src={selectedPhoto.url}
               alt={selectedPhoto.alt}
               className="max-w-full max-h-[90vh] object-contain rounded-lg"
-              onClick={() => setSelectedPhoto(null)}
+              onClick={() => {
+                console.log('Clicou na imagem ampliada para fechar')
+                setSelectedPhoto(null)
+              }}
             />
 
             {/* Footer do Modal de Foto */}
-            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
+            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
               <div className="text-center">
                 <p className="text-sm text-gray-300 mb-2">
                   💡 Clique na imagem ou no X para fechar
                 </p>
                 <button
-                  onClick={() => setSelectedPhoto(null)}
+                  onClick={() => {
+                    console.log('Clicou no botão fechar')
+                    setSelectedPhoto(null)
+                  }}
                   className="px-4 py-2 bg-white bg-opacity-20 text-white rounded-lg hover:bg-opacity-30 transition-all"
                 >
                   Fechar Visualização
@@ -461,7 +471,10 @@ const SearchResults = ({ results, loading, searchParams, onNewSearch }) => {
           {/* Overlay para fechar clicando fora */}
           <div 
             className="absolute inset-0 -z-10"
-            onClick={() => setSelectedPhoto(null)}
+            onClick={() => {
+              console.log('Clicou no overlay para fechar')
+              setSelectedPhoto(null)
+            }}
           ></div>
         </div>
       )}
