@@ -20,6 +20,22 @@ const Plans = () => {
       cta: "Começar Agora"
     },
     {
+      icon: Zap,
+      title: "Cesta de produtos",
+      subtitle: "Pacote completo",
+      description: "Conjunto de serviços integrados para maximizar seus resultados",
+      features: [
+        "Gestão completa de imóveis",
+        "Marketing digital incluído",
+        "Consultoria especializada",
+        "Relatórios avançados",
+        "Suporte premium 24/7",
+        "Ferramentas exclusivas"
+      ],
+      highlight: false,
+      cta: "Conhecer Pacote"
+    },
+    {
       icon: Star,
       title: "Publicidade",
       subtitle: "Imóveis em destaque",
@@ -51,7 +67,7 @@ const Plans = () => {
         </div>
 
         {/* Grid de Planos */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 max-w-6xl mx-auto">
           {plans.map((plan, index) => {
             const IconComponent = plan.icon
             return (
