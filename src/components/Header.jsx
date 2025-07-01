@@ -58,12 +58,6 @@ const Header = ({ onNavigate }) => {
               Como Funciona
             </button>
             <button 
-              onClick={() => handleNavigation('produtos')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Produtos
-            </button>
-            <button 
               onClick={() => handleNavigation('planos')}
               className="text-foreground hover:text-primary transition-colors"
             >

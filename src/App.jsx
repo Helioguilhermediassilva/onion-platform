@@ -4,7 +4,6 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
 import HowItWorks from './components/HowItWorks'
-import Products from './components/Products'
 import Plans from './components/Plans'
 import Footer from './components/Footer'
 import SearchResults from './components/SearchResults'
@@ -107,7 +106,6 @@ function App() {
           <>
             <About />
             <HowItWorks />
-            <Products />
             <Plans />
           </>
         )}

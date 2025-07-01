@@ -8,7 +8,6 @@ const Footer = () => {
     empresa: [
       { name: "Sobre a ONION", href: "#sobre" },
       { name: "Como Funciona", href: "#como-funciona" },
-      { name: "Nossos Produtos", href: "#produtos" },
       { name: "Planos e Preços", href: "#planos" }
     ],
     servicos: [
